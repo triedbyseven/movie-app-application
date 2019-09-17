@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { useMutation } from '@apollo/react-hooks';
-import { MutationRegister } from '../../graphql';
+import { MutationRegister } from '../../../graphql';
 
 export interface RegisterFormProps {
   props: any;

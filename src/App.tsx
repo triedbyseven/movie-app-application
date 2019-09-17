@@ -1,6 +1,6 @@
 import React from 'react';
-import Dashboard from './ui/screens/Dashboard';
-import Welcome from './ui/screens/Welcome';
+import Dashboard from './components/ui/screens/Dashboard';
+import Welcome from './components/ui/screens/Welcome';
 import { Switch, Route } from 'react-router-dom';
 
 const App: React.FC = () => {

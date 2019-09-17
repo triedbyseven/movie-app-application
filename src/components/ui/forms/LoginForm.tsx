@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useMutation } from '@apollo/react-hooks';
-import { MutationLogIn } from '../../graphql';
+import { MutationLogIn } from '../../../graphql';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';

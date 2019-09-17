@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 
 import { useQuery } from '@apollo/react-hooks';
-import { QueryMoviesById } from '../../graphql';
+import { QueryMoviesById } from '../../../graphql';
 
 import Header1 from '../headers/Header1';
 import Table1 from '../tables/Table1';

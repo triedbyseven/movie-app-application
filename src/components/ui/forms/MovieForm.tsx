@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { useMutation } from '@apollo/react-hooks';
-import { MutationMovie, QueryMoviesById } from '../../graphql';
+import { MutationMovie, QueryMoviesById } from '../../../graphql';
 import { v4 as uuid } from 'uuid';
 
 import Paper from '@material-ui/core/Paper';

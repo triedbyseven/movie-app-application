@@ -17,7 +17,7 @@ const App: React.FC = () => {
     <React.Fragment>
       <Switch>
         <Route path="/" exact component={Welcome} />
-        <Route path="/register" component={Welcome} />=
+        <Route path="/register" component={Welcome} />
         <PrivateRoute
           path="/dashboard"
           component={Dashboard}

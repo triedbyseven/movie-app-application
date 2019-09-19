@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { GlobalStateContext } from './Store';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from './components/ui/screens/Dashboard';
 import Welcome from './components/ui/screens/Welcome';
 import PrivateRoute from './components/ui/routes/PrivateRoute';
 
-interface AppState {
-  isAuthenticated: boolean;
-}
-
 const App: React.FC = () => {
-  const [globalValues, setGlobalValues] = useState<AppState>({
-    isAuthenticated: false
-  });
+  // const [globalValues, setGlobalValues] = useState<AppState>({
+  //   isAuthenticated: false
+  // });
+
+  const [value]: any = useContext(GlobalStateContext);
+
+  // const isAuthenticated = false;
 
   return (
     <React.Fragment>
@@ -21,7 +22,7 @@ const App: React.FC = () => {
         <PrivateRoute
           path="/dashboard"
           component={Dashboard}
-          isAuthenticated={globalValues.isAuthenticated}
+          isAuthenticated={value.isAuthenticated}
         />
       </Switch>
     </React.Fragment>

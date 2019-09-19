@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { GlobalStateContext } from './Store';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Dashboard from './components/ui/screens/Dashboard';
 import Welcome from './components/ui/screens/Welcome';
+import PublicRoute from './components/ui/routes/PublicRoute';
 import PrivateRoute from './components/ui/routes/PrivateRoute';
 
 const App: React.FC = () => {
@@ -11,8 +12,17 @@ const App: React.FC = () => {
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/" exact component={Welcome} />
-        <Route path="/register" component={Welcome} />
+        <PublicRoute
+          path="/"
+          exact
+          component={Welcome}
+          isAuthenticated={isAuthenticated}
+        />
+        <PublicRoute
+          path="/register"
+          component={Welcome}
+          isAuthenticated={isAuthenticated}
+        />
         <PrivateRoute
           path="/dashboard"
           component={Dashboard}

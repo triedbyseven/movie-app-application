@@ -6,13 +6,7 @@ import Welcome from './components/ui/screens/Welcome';
 import PrivateRoute from './components/ui/routes/PrivateRoute';
 
 const App: React.FC = () => {
-  // const [globalValues, setGlobalValues] = useState<AppState>({
-  //   isAuthenticated: false
-  // });
-
   const [{ isAuthenticated }]: any = useContext(GlobalStateContext);
-
-  // const isAuthenticated = false;
 
   return (
     <React.Fragment>

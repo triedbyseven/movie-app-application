@@ -28,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   const classes = useStyles();
 
   // Global state
-  const [_, setValue]: any = useContext(GlobalStateContext);
+  const [, setValue]: any = useContext(GlobalStateContext);
 
   // Local state
   const [values, setValues] = useState<LoginFormState>({
@@ -63,8 +63,6 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   });
 
   function _loginBtn() {
-    console.log(values.username);
-    console.log(values.password);
     loginUser({
       variables: { userName: values.username, password: values.password }
     });

@@ -51,14 +51,14 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     }) => {
       Cookies.set('Authorization', `Bearer ${token}`);
 
-      setValue({ isAuthenticated: true });
-
       props.history.push({
         pathname: '/dashboard',
         state: {
           id
         }
       });
+
+      setValue({ isAuthenticated: true });
     }
   });
 

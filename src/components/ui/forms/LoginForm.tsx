@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
+import { GlobalStateContext } from '../../../Store';
 import { useMutation } from '@apollo/react-hooks';
 import { MutationLogIn } from '../../../graphql';
 
@@ -26,6 +27,9 @@ interface LoginFormState {
 const LoginForm: React.FC<LoginFormProps> = props => {
   const classes = useStyles();
 
+  // Global state
+  const [_, setValue]: any = useContext(GlobalStateContext);
+
   // Local state
   const [values, setValues] = useState<LoginFormState>({
     username: '',
@@ -47,6 +51,8 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     }) => {
       Cookies.set('Authorization', `Bearer ${token}`);
 
+      setValue({ isAuthenticated: true });
+
       props.history.push({
         pathname: '/dashboard',
         state: {
@@ -57,6 +63,8 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   });
 
   function _loginBtn() {
+    console.log(values.username);
+    console.log(values.password);
     loginUser({
       variables: { userName: values.username, password: values.password }
     });

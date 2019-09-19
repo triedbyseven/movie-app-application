@@ -10,7 +10,7 @@ const App: React.FC = () => {
   //   isAuthenticated: false
   // });
 
-  const [value]: any = useContext(GlobalStateContext);
+  const [{ isAuthenticated }]: any = useContext(GlobalStateContext);
 
   // const isAuthenticated = false;
 
@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <PrivateRoute
           path="/dashboard"
           component={Dashboard}
-          isAuthenticated={value.isAuthenticated}
+          isAuthenticated={isAuthenticated}
         />
       </Switch>
     </React.Fragment>

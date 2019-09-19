@@ -8,6 +8,7 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import App from './App';
+import Store from './Store';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
@@ -36,7 +37,9 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App />
+      <Store>
+        <App />
+      </Store>
     </BrowserRouter>
   </ApolloProvider>,
   document.getElementById('root')

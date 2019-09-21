@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
 export const GlobalStateContext = React.createContext({
-  isAuthenticated: false
+  isAuthenticated: false,
+  userId: ''
 });
 
 const Store = ({ children }) => {
   const [value, setValue] = useState({
-    isAuthenticated: false
+    isAuthenticated: false,
+    userId: ''
   });
 
   return (

@@ -1,9 +1,7 @@
-import React, { useState, useContext } from 'react';
-import Cookies from 'js-cookie';
-import { GlobalStateContext } from '../../../Store';
+import React, { useState } from 'react';
+import { useStore } from '../../../Store';
 import { useMutation } from '@apollo/react-hooks';
 import { MutationLogIn } from '../../../graphql';
-
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
@@ -28,7 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   const classes = useStyles();
 
   // Global state
-  const [, setValue]: any = useContext(GlobalStateContext);
+  const { state, dispatch }: any = useStore();
 
   // Local state
   const [values, setValues] = useState<LoginFormState>({
@@ -37,44 +35,42 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     showPassword: false
   });
 
-  // Mutation hook
+  // Mutation login hook
   const [
     loginUser,
     { loading: mutationLoading, error: mutationError }
   ] = useMutation(MutationLogIn, {
     onError: error => console.log(error),
-    onCompleted: ({
-      loginUser: {
-        token,
-        user: { userId }
-      }
-    }) => {
-      Cookies.set('Authorization', `Bearer ${token}`);
-
-      setValue({ isAuthenticated: true, userId: userId });
+    onCompleted: ({ loginUser: { token } }) => {
+      dispatch({ type: 'login', args: { token } });
     }
   });
 
+  // Login button
   function _loginBtn() {
     loginUser({
       variables: { userName: values.username, password: values.password }
     });
   }
 
+  // Register view button
   function _registerBtn() {
     props.history.push('/register');
   }
 
+  // Handle change method to update state value from input fields
   const handleChange = (prop: keyof LoginFormState) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  // Handle change method to update click to show password button
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
 
+  // Handle change method to update password input
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {

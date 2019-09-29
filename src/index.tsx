@@ -8,40 +8,53 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import App from './App';
-import Store from './Store';
+import { StoreProvider } from './Store';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql'
-});
+export interface IndexProps {
+  component?: any;
+  children?: any;
+}
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  let token = Cookies.get('Authorization') || '';
-  token = token.split(' ')[1];
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : ''
-    }
-  };
-});
+const ApolloWrapper: React.SFC<IndexProps> = ({
+  component: Component,
+  children,
+  ...rest
+}) => {
+  const httpLink = createHttpLink({
+    uri: 'http://localhost:4000/graphql'
+  });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
-});
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    let token = Cookies.get('Authorization') || '';
+    token = token.split(' ')[1];
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    };
+  });
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
+
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+};
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Store>
+  <StoreProvider>
+    <ApolloWrapper>
+      <BrowserRouter>
         <App />
-      </Store>
-    </BrowserRouter>
-  </ApolloProvider>,
+      </BrowserRouter>
+    </ApolloWrapper>
+  </StoreProvider>,
   document.getElementById('root')
 );
 

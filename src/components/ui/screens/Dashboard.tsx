@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { useQuery } from '@apollo/react-hooks';
 import { QueryMoviesById } from '../../../graphql';
-import { GlobalStateContext } from '../../../Store';
+// import { GlobalStateContext } from '../../../Store';
 
 import Header1 from '../headers/Header1';
 import Table1 from '../tables/Table1';
@@ -26,11 +26,11 @@ const Dashboard: React.SFC<DashboardProps> = props => {
   );
 
   // Global State
-  const [value, setValue]: any = useContext(GlobalStateContext);
+  // const [value, setValue]: any = useContext(GlobalStateContext);
 
   function _logOut() {
     Cookies.remove('Authorization');
-    setValue({ isAuthenticated: false });
+    // setValue({ isAuthenticated: false });
   }
 
   return (
@@ -43,7 +43,7 @@ const Dashboard: React.SFC<DashboardProps> = props => {
           </Button>
         </div>
         <Table1 data={data} loading={queryLoading} error={queryError} />
-        <MovieForm userId={value.userId} />
+        {/* <MovieForm userId={value.userId} /> */}
       </Container>
     </React.Fragment>
   );

@@ -41,8 +41,13 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     { loading: mutationLoading, error: mutationError }
   ] = useMutation(MutationLogIn, {
     onError: error => console.log(error),
-    onCompleted: ({ loginUser: { token } }) => {
-      dispatch({ type: 'login', args: { token } });
+    onCompleted: ({
+      loginUser: {
+        token,
+        user: { id }
+      }
+    }) => {
+      dispatch({ type: 'login', args: { token, id } });
     }
   });
 

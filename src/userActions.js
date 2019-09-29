@@ -28,6 +28,7 @@ export const userActions = {
     };
   },
   logout: state => {
+    Cookies.remove('Authorization');
     return { user: { loggedIn: false } };
   }
 };

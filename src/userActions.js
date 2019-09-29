@@ -7,6 +7,7 @@ token = token.split(' ')[1];
 export const userInitialState = {
   user: {
     loggedIn: token != null,
+    userId: '',
     token: token
   }
 };
@@ -14,12 +15,14 @@ export const userInitialState = {
 export const userActions = {
   login: (state, args) => {
     const token = args.token;
+    const userId = args.id;
 
     Cookies.set('Authorization', `Bearer ${token}`);
 
     return {
       user: {
         loggedIn: true,
+        userId: userId,
         token: token
       }
     };

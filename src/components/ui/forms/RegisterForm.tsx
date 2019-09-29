@@ -8,6 +8,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { useMutation } from '@apollo/react-hooks';
 import { MutationRegister } from '../../../graphql';
+import { useStore } from '../../../Store';
 
 export interface RegisterFormProps {
   props: any;
@@ -16,20 +17,25 @@ export interface RegisterFormProps {
 
 const RegisterForm: React.FC<RegisterFormProps> = props => {
   const classes = useStyles();
+
+  const { state, dispatch } = useStore();
+
   const [username, updateUsername] = useState('');
   const [password, updatePassword] = useState('');
   const [email, updateEmail] = useState('');
+
   const [
     registerUser,
     { loading: mutationLoading, error: mutationError }
   ] = useMutation(MutationRegister, {
     onError: error => console.log(error),
-    onCompleted: ({ registerUser: { token } }) => {
-      console.log('Success!');
-
-      Cookies.set('Authorization', `Bearer ${token}`);
-
-      props.history.push('/dashboard');
+    onCompleted: ({
+      registerUser: {
+        token,
+        user: { id }
+      }
+    }) => {
+      dispatch({ type: 'register', args: { token, id } });
     }
   });
 

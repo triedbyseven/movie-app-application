@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
+import { userInitialState, userActions } from './userActions';
 
-export const GlobalStateContext = React.createContext({
-  isAuthenticated: false,
-  userId: ''
-});
+const initialState = {
+  ...userInitialState
+};
 
-const Store = ({ children }) => {
-  const [value, setValue] = useState({
-    isAuthenticated: false,
-    userId: ''
-  });
+const StoreContext = createContext(initialState);
+
+// this will act as a map of actions that will trigger state mutations
+const Actions = {
+  ...userActions
+};
+
+const reducer = (state, action) => {
+  const act = Actions[action.type];
+  const args = action.args || {};
+  const update = act(state, args);
+  return { ...state, ...update };
+};
+
+export const StoreProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <GlobalStateContext.Provider value={[value, setValue]}>
+    <StoreContext.Provider value={{ state, dispatch }}>
       {children}
-    </GlobalStateContext.Provider>
+    </StoreContext.Provider>
   );
 };
 
-export default Store;
+// export const useStateValue = () => useContext(GlobalStateContext);
+
+export const useStore = store => {
+  const { state, dispatch } = useContext(StoreContext);
+  return { state, dispatch };
+};

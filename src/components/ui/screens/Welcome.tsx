@@ -22,7 +22,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
         style={{ height: '100vh' }}
       >
         <Grid item xs={12} md={6}>
-          <Card style={{ textAlign: 'center' }}>
+          <Card style={{ position: 'relative', textAlign: 'center' }}>
             <CardContent style={{ maxWidth: '400px', display: 'inline-block' }}>
               <Switch>
                 <Route path="/" exact component={LoginForm} />

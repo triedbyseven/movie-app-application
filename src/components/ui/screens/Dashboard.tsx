@@ -19,7 +19,7 @@ export interface DashboardProps {
   client: any;
 }
 
-const Dashboard: React.SFC<DashboardProps> = props => {
+const Dashboard: React.FC<DashboardProps> = () => {
   // Apollo query by id
   const { loading: queryLoading, error: queryError, data } = useQuery(
     QueryMoviesById

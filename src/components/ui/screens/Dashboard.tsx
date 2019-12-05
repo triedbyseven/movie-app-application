@@ -12,14 +12,7 @@ import Header1 from '../headers/Header1';
 import Table1 from '../tables/Table1';
 import MovieForm from '../forms/MovieForm';
 
-export interface DashboardProps {
-  props: any;
-  history: any;
-  location: any;
-  client: any;
-}
-
-const Dashboard: React.FC<DashboardProps> = () => {
+const Dashboard: React.FC = () => {
   // Apollo query by id
   const { loading: queryLoading, error: queryError, data } = useQuery(
     QueryMoviesById

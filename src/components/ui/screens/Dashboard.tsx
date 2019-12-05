@@ -42,7 +42,7 @@ const Dashboard: React.SFC<DashboardProps> = props => {
           </Button>
         </div>
         <Table1 data={data} loading={queryLoading} error={queryError} />
-        <MovieForm userId={state.userId} />
+        <MovieForm userId={state.user.userId} />
       </Container>
     </React.Fragment>
   );

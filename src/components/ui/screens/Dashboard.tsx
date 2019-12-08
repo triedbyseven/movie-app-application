@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import Cookies from 'js-cookie';
+import React from 'react';
 
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';

@@ -3,7 +3,7 @@ import { useStore } from '../../../Store';
 import { useMutation } from '@apollo/react-hooks';
 import { MutationLogIn } from '../../../graphql';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Joi from '@hapi/joi';
+import validateUser from '../../../utils/validation';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -82,24 +82,6 @@ const LoginForm: React.FC<LoginFormProps> = props => {
       dispatch({ type: 'login', args: { token, id } });
     }
   });
-
-  // Validation with joi
-  async function validateUser(username: string, password: string) {
-    const schema = Joi.object({
-      username: Joi.string()
-        .alphanum()
-        .min(5)
-        .max(30)
-        .required(),
-
-      password: Joi.string().regex(/^[a-zA-Z0-9!@#]{0,30}$/)
-    });
-
-    return await schema.validate(
-      { username: username, password: password },
-      { abortEarly: false }
-    );
-  }
 
   // Login button
   async function _loginBtn() {

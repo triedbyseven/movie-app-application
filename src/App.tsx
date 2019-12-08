@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useStore } from './Store';
 import { Switch } from 'react-router-dom';
 import Dashboard from './components/ui/screens/Dashboard';
@@ -7,7 +7,7 @@ import PublicRoute from './components/ui/routes/PublicRoute';
 import PrivateRoute from './components/ui/routes/PrivateRoute';
 
 const App: React.FC = () => {
-  const { state, dispatch }: any = useStore();
+  const { state }: any = useStore();
   console.log(state);
 
   return (

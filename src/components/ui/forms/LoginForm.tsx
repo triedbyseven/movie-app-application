@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
   }, []);
 
   // Global state
-  const { state, dispatch }: any = useStore();
+  const { dispatch }: any = useStore();
 
   // Local state
   const [values, setValues] = useState<LoginFormState>({
@@ -104,10 +104,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     }
 
     // Validate Form
-    const { error, value }: any = await validateUser(
-      values.username,
-      values.password
-    );
+    const { error }: any = await validateUser(values.username, values.password);
 
     // Check if errors exist and update formErrors with errors.
     if (error)

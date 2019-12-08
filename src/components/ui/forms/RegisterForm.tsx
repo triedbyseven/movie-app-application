@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Cookies from 'js-cookie';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -18,7 +17,7 @@ export interface RegisterFormProps {
 const RegisterForm: React.FC<RegisterFormProps> = props => {
   const classes = useStyles();
 
-  const { state, dispatch } = useStore();
+  const { dispatch } = useStore();
 
   const [username, updateUsername] = useState('');
   const [password, updatePassword] = useState('');

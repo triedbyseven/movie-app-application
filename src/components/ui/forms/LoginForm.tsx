@@ -3,7 +3,7 @@ import { useStore } from '../../../Store';
 import { useMutation } from '@apollo/react-hooks';
 import { MutationLogIn } from '../../../graphql';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import validateUser from '../../../utils/validation';
+import { validateUser } from '../../../utils/validation';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';

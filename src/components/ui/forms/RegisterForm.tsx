@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import handleEventChange from '../../../utils/form';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 import { useMutation } from '@apollo/react-hooks';
 import { MutationRegister } from '../../../graphql';
 import { useStore } from '../../../Store';
+import { validateRegisteredUser } from '../../../utils/validation';
+
+export interface RegisterFormState {
+  username: string;
+  email: string;
+  password: string;
+  formErrors: Array<object>;
+  usernameError: boolean;
+  passwordError: boolean;
+}
 
 export interface RegisterFormProps {
   props: any;
@@ -17,11 +29,28 @@ export interface RegisterFormProps {
 const RegisterForm: React.FC<RegisterFormProps> = props => {
   const classes = useStyles();
 
+  // UseEffect (componentDidMount) on initial render
+  useEffect(() => {
+    usernameInput.current.focus();
+  }, []);
+
+  // Global state
   const { dispatch } = useStore();
 
-  const [username, updateUsername] = useState('');
-  const [password, updatePassword] = useState('');
-  const [email, updateEmail] = useState('');
+  // Local State
+  const [values, setValues] = useState<RegisterFormState>({
+    username: '',
+    email: '',
+    password: '',
+    formErrors: [],
+    usernameError: false,
+    passwordError: false
+  });
+
+  // Refs
+  const usernameInput: any = useRef();
+  const emailInput: any = useRef();
+  const passwordInput: any = useRef();
 
   const [
     registerUser,
@@ -42,14 +71,70 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
     props.history.push('/');
   }
 
-  function _registerBtn() {
+  async function _registerBtn() {
+    if (values.username === '') {
+      setValues(prevState => ({
+        ...prevState,
+        formErrors: [{ message: 'Enter your username' }],
+        usernameError: true
+      }));
+      return usernameInput.current.focus();
+    }
+
+    if (values.email === '') {
+      setValues(prevState => ({
+        ...prevState,
+        formErrors: [{ message: 'Enter your email' }],
+        emailError: true
+      }));
+      return emailInput.current.focus();
+    }
+
+    if (values.password === '') {
+      setValues(prevState => ({
+        ...prevState,
+        formErrors: [{ message: 'Enter your password' }],
+        passwordError: true
+      }));
+      return passwordInput.current.focus();
+    }
+
+    // Validate Form
+    const { error }: any = await validateRegisteredUser(
+      values.username,
+      values.email,
+      values.password
+    );
+
+    // Check if errors exist and update formErrors with errors.
+    if (error)
+      return setValues(prevState => ({
+        ...prevState,
+        formErrors: error.details
+      }));
+
+    // Reset form errors if no errors.
+    setValues(prevState => ({
+      ...prevState,
+      formErrors: [],
+      usernameError: false,
+      passwordError: false
+    }));
+
+    // Trigger registerUser mutation to login the user server side.
     registerUser({
-      variables: { userName: username, email: email, password: password }
+      variables: {
+        userName: values.username,
+        email: values.email,
+        password: values.password
+      }
     });
   }
 
   return (
     <React.Fragment>
+      {/* Mutatoin loading progress bar */}
+      {mutationLoading && <LinearProgress className={classes.loadingLinear} />}
       <Typography variant="h4" component="h1">
         Create a new account
       </Typography>
@@ -64,8 +149,9 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
           className={classes.textField}
           margin="normal"
           variant="outlined"
-          onChange={e => updateUsername(e.target.value)}
-          value={username}
+          onChange={handleEventChange('username', values, setValues)}
+          value={values.username}
+          inputRef={usernameInput}
         />
         <TextField
           id="outlined-with-placeholder"
@@ -74,8 +160,9 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
           className={classes.textField}
           margin="normal"
           variant="outlined"
-          onChange={e => updateEmail(e.target.value)}
-          value={email}
+          onChange={handleEventChange('email', values, setValues)}
+          value={values.email}
+          inputRef={emailInput}
         />
         <TextField
           id="outlined-with-placeholder"
@@ -84,8 +171,9 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
           className={classes.textField}
           margin="normal"
           variant="outlined"
-          onChange={e => updatePassword(e.target.value)}
-          value={password}
+          onChange={handleEventChange('password', values, setValues)}
+          value={values.password}
+          inputRef={passwordInput}
         />
         <Button
           onClick={_registerBtn}
@@ -103,8 +191,31 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
         >
           Login
         </Button>
-        {mutationLoading && <p>Loading...</p>}
-        {mutationError && <p>Error :( Please try again</p>}
+
+        {/* Mutation  error messages */}
+        {mutationError && (
+          <Typography
+            variant="body2"
+            gutterBottom
+            style={{ width: '100%', color: '#d93025' }}
+          >
+            {mutationError.graphQLErrors[0].message}
+          </Typography>
+        )}
+
+        {/* Form error messages */}
+        {values.formErrors.length !== 0
+          ? values.formErrors.map((error: any | null, index: number) => (
+              <Typography
+                key={index}
+                variant="body2"
+                gutterBottom
+                style={{ width: '100%', color: '#d93025' }}
+              >
+                {error.message}.
+              </Typography>
+            ))
+          : ''}
       </form>
     </React.Fragment>
   );
@@ -123,6 +234,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       margin: theme.spacing(1)
+    },
+    loadingLinear: {
+      position: 'absolute',
+      width: '100%',
+      top: 0,
+      left: 0
     }
   })
 );

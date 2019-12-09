@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { MutationLogIn } from '../../../graphql';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { validateUser } from '../../../utils/validation';
+import handleEventChange from '../../../utils/form';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -18,7 +19,7 @@ export interface LoginFormProps {
   history: any;
 }
 
-interface LoginFormState {
+export interface LoginFormState {
   username: string;
   password: string;
   showPassword: boolean;
@@ -132,13 +133,6 @@ const LoginForm: React.FC<LoginFormProps> = props => {
     props.history.push('/register');
   }
 
-  // Handle change method to update state value from input fields
-  const handleChange = (prop: keyof LoginFormState) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
   // Handle change method to update click to show password button
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
@@ -167,7 +161,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
           className={classes.textField}
           margin="normal"
           variant="outlined"
-          onChange={handleChange('username')}
+          onChange={handleEventChange('username', values, setValues)}
           value={values.username}
           inputRef={usernameInput}
         />
@@ -179,7 +173,7 @@ const LoginForm: React.FC<LoginFormProps> = props => {
           type={values.showPassword ? 'text' : 'password'}
           margin="normal"
           variant="outlined"
-          onChange={handleChange('password')}
+          onChange={handleEventChange('password', values, setValues)}
           value={values.password}
           inputRef={passwordInput}
           InputProps={{

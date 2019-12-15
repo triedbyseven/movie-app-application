@@ -14,7 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 
-export interface MoviePreviewProps {}
+export interface MoviePreviewProps {
+  movie: object;
+}
 
 const MoviePreview: React.FC<MoviePreviewProps> = () => {
   const classes = useStyles();

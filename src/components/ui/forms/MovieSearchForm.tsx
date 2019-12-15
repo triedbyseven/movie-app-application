@@ -4,7 +4,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-const MovieSearchForm: React.FC = () => {
+export interface MovieSearchProps {
+  movie: object;
+}
+
+const MovieSearchForm: React.FC<MovieSearchProps> = () => {
   return (
     <Paper>
       <div style={{ padding: 20 }}>

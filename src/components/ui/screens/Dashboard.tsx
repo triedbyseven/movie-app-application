@@ -13,6 +13,7 @@ import Table1 from '../tables/Table1';
 import MovieForm from '../forms/MovieForm';
 import MoviePreview from '../previews/MoviePreview';
 import MovieSearchForm from '../forms/MovieSearchForm';
+import MovieListPreview from '../previews/MovieListPreview';
 
 interface DashboardState {
   movie: object;
@@ -82,6 +83,7 @@ const Dashboard: React.FC = () => {
           data-test="component-movie-preview"
           movie={movieState.movie}
         />
+        <MovieListPreview />
         <MovieSearchForm
           searchedMovie={movieState.searchedMovie}
           setSearchedMovie={setSearchedMovie}

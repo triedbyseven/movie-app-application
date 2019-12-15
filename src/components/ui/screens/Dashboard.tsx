@@ -83,7 +83,10 @@ const Dashboard: React.FC = () => {
           data-test="component-movie-preview"
           movie={movieState.movie}
         />
-        <MovieListPreview />
+        <MovieListPreview
+          data-test="component-movie-list-preview"
+          movies={movieState.allMovies}
+        />
         <MovieSearchForm
           searchedMovie={movieState.searchedMovie}
           setSearchedMovie={setSearchedMovie}

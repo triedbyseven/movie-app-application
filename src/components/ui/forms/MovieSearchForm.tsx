@@ -5,10 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
 export interface MovieSearchProps {
-  movie: object;
+  searchedMovie: string;
+  setSearchedMovie: any;
 }
 
-const MovieSearchForm: React.FC<MovieSearchProps> = () => {
+const MovieSearchForm: React.FC<MovieSearchProps> = props => {
   return (
     <Paper>
       <div style={{ padding: 20 }}>
@@ -16,10 +17,13 @@ const MovieSearchForm: React.FC<MovieSearchProps> = () => {
           Search Movies
         </Typography>
         <TextField
+          data-test="component-input-search-movie"
           label="Search By Title"
           placeholder="Search By Title"
           margin="dense"
           variant="outlined"
+          onChange={e => props.setSearchedMovie(e)}
+          value={props.searchedMovie}
         />
       </div>
     </Paper>

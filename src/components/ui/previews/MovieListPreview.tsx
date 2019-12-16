@@ -48,7 +48,7 @@ const MovieListPreview: React.SFC<MovieListPreviewProps> = ({ movies }) => {
       <h3>Preview List</h3>
       <GridList className={classes.gridList} cols={2.5}>
         {movies
-          .sort((a, b) => (b.poster_path ? -1 : 1))
+          .sort((a, b) => (a.poster_path ? -1 : 1))
           .map(({ poster_path, title }, i): any => (
             <GridListTile key={i} style={{ height: 300, maxWidth: 200 }}>
               <img

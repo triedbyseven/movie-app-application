@@ -18,7 +18,7 @@ import MovieListPreview from '../previews/MovieListPreview';
 interface DashboardState {
   movie: object;
   searchedMovie: string;
-  allMovies: Array<object>;
+  allMovies: any;
 }
 
 const Dashboard: React.FC = () => {
